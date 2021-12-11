@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block body_block %}
+{% if user.is_authenticated %}
+{% if object.Image %}
+<table>
+  <tr>
+    <td align='center'><img src="{{ object.Image.url }}" alt="image broken" height="50%" width="50%"></td><td align='left'><a href="{{ object.Image.url }}" download><i class="fa fa-cloud-download" style="font-size:36px"></i></a><a href="{% url 'delete' pk=object.id %}"><i class="fa fa-trash" style="font-size:36px"></i></a></td>
+  </tr>
+</table>
+{% endif %}
+{% if object.Video %}
+<table>
+  <tr>
+    <td align='center'><video width="300" height="220" controls><source src="{{ object.Video.url }}" type="video/mp4"></video></td><td align='left'><a href="{{ object.Video.url }}" download><i class="fa fa-cloud-download" style="font-size:36px"></i></a><a href="{% url 'delete' pk=object.id %}"><i class="fa fa-trash" style="font-size:36px"></i></a></td>
+  </tr>
+</table>
+{% endif %}
+{% if object.audio %}
+<table>
+  <tr>
+    <td align='center'><audio controls><source src="{{ object.audio.url }}" type="audio/ogg"></audio></td><td align='left'><a href="{{ object.audio.url }}" download><i class="fa fa-cloud-download" style="font-size:36px"></i><a href="{% url 'delete' pk=object.id %}"><i class="fa fa-trash" style="font-size:36px"></i></a></td>
+  </tr>
+</table>
+{% endif %}
+{% if object.documents %}
+<table>
+  <tr>
+    <td align='center'>{{object.documents}}</td><td align='left'><a href="{{ object.documents.url }}" download><i class="fa fa-cloud-download" style="font-size:36px"></i><a href="{% url 'delete' pk=object.id %}"><i class="fa fa-trash" style="font-size:36px"></i></a></td>
+  </tr>
+</table>
+{% endif %}
+{% endif %}
+{% endblock %}

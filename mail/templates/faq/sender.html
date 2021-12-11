@@ -1,0 +1,36 @@
+{% extends 'faq/base.html' %}
+{% block body_block %}
+{% if user.is_authenticated %}
+{% if sent %}
+<h3>Mail sent successfully</h3>
+{% else %}
+<br>
+<form class="form-control" method="post">
+  {% csrf_token %}
+  <table align="center">
+    <h6>Note:Please Make sure to deactivate your 2-step verification before sending mail </h6>
+    <h6>Unless This Email sender will not work</h6>
+    <h6><a href="https://myaccount.google.com/security">click to deactivate your 2-step verification</a></h6>
+    <tr>
+      <td>From Email</td><td><input type="text" class="form-control" name="fm" placeholder="@mail"></td>
+    </tr>
+    <tr>
+      <td>Password</td><td><input type="password" class="form-control" name="pass" placeholder="*****"></td>
+    </tr>
+    <tr>
+      <td>To Email</td><td><input type="text" class="form-control" name="tm" placeholder="@mail"></td>
+    </tr>
+    <tr>
+      <td>Subject</td><td><input type="text" class="form-control" name="sub" placeholder="subject"></td>
+    </tr>
+    <tr>
+      <td></td><td><textarea name="ta" rows="8" cols="80"></textarea></td>
+    </tr>
+    <tr>
+      <td></td><td align='center'><input type="submit" class="form-control btn btn-primary" value="Send"><a href="{% url 'mailhome' %}"><input type="button" class="form-control btn btn-danger" value="Cancel"></a></td>
+    </tr>
+  </table>
+</form>
+{% endif %}
+{% endif %}
+{% endblock %}

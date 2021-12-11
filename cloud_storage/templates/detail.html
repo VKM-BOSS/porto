@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block body_block %}
+{% if user.is_authenticated %}
+<h1>Welcome {{object.username}}</h1>
+{% if Image %}
+<div class="container">
+  <a href="{% url 'detail' pk=user.id %}"><input type="button" class='btn btn-primary' value="Image"></a> <a href="{% url 'detailvid' pk=user.id %}"><input type="button" class='btn btn-primary' value="Video"></a> <a href="{% url 'detailaud' pk=user.id %}"><input type="button" class='btn btn-primary' value="Audio"></a> <a href="{% url 'detaildoc' pk=user.id %}"><input type="button" class='btn btn-primary' value="Document"></a><br><br>
+  <div class="col-xs-12">
+    {% for item in object.files.all %}
+    {% if item.Image %}
+    <a href="{% url 'detailin' pk=item.id %}"><img src="{{ item.Image.url }}" alt="image broken" height="220" width="300"></a>
+    {% endif %}
+    {% endfor %}
+    <br><br>
+  </div>
+</div>
+{% elif Video %}
+<div class="container">
+  <a href="{% url 'detail' pk=user.id %}"><input type="button" class='btn btn-primary' value="Image"></a> <a href="{% url 'detailvid' pk=user.id %}"><input type="button" class='btn btn-primary' value="Video"></a> <a href="{% url 'detailaud' pk=user.id %}"><input type="button" class='btn btn-primary' value="Audio"></a> <a href="{% url 'detaildoc' pk=user.id %}"><input type="button" class='btn btn-primary' value="Document"></a><br><br>
+{% for item in object.files.all %}
+{% if item.Video %}
+  <div class="col-xs-12">
+    <a href="{% url 'detailin' pk=item.id %}">
+    <video width="300" height="220" controls>
+      <source src="{{ item.Video.url }}" type="video/mp4">
+      </video>
+    </a>
+  </div>
+  {% endif %}
+  {% endfor %}
+{% elif Audio %}
+<div class="container">
+  <a href="{% url 'detail' pk=user.id %}"><input type="button" class='btn btn-primary' value="Image"></a> <a href="{% url 'detailvid' pk=user.id %}"><input type="button" class='btn btn-primary' value="Video"></a> <a href="{% url 'detailaud' pk=user.id %}"><input type="button" class='btn btn-primary' value="Audio"></a> <a href="{% url 'detaildoc' pk=user.id %}"><input type="button" class='btn btn-primary' value="Document"></a><br><br>
+  {% for item in object.files.all %}
+  {% if item.audio %}
+<a href="{% url 'detailin' pk=item.id %}">{{ item.audio }}</a>
+  <div class="col-xs-12">
+    <audio controls>
+      <source src="{{ item.audio.url }}" type="audio/ogg">
+      </audio>
+    </div>
+  {% endif %}
+  {% endfor %}
+{% elif Document %}
+  <div class="container">
+    <a href="{% url 'detail' pk=user.id %}"><input type="button" class='btn btn-primary' value="Image"></a> <a href="{% url 'detailvid' pk=user.id %}"><input type="button" class='btn btn-primary' value="Video"></a> <a href="{% url 'detailaud' pk=user.id %}"><input type="button" class='btn btn-primary' value="Audio"></a> <a href="{% url 'detaildoc' pk=user.id %}"><input type="button" class='btn btn-primary' value="Document"></a><br><br>
+    {% for item in object.files.all %}
+    {% if item.documents %}
+    <div class="col-xs-12">
+      <a href="{% url 'detailin' pk=item.id %}">{{item.documents}}</a>
+    </div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+{% endif %}
+{% endblock %}

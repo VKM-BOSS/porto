@@ -1,0 +1,48 @@
+{% extends 'sim/base.html' %}
+{% block body_block %}
+{% if user.is_authenticated %}
+<div class="jumbotron">
+  <h1 class="display-4">{{object.title}}</h1>{% if user == object.user%}<a href="{% url 'pu' pk=object.id %}"><input type="button" class="btn btn-dark" value="Edit"></a> <a href="{% url 'pd' pk=object.id %}"><input type="button" class="btn btn-danger" value="Delete"></a>{% endif %}
+  <p class="lead">This Blog Uploaded by {{object.user}}</p>
+  <hr class="my-4">
+  {% if object.Image %}
+  <p>{{object.post|slice:"0:55"}}</p>
+  <p class="lead">
+    <img src="{{ object.Image.url }}" alt="image broken" width=auto height=100%>
+  </p>
+  {% elif object.Video %}
+  <p>{{object.post|slice:"0:55"}}</p>
+  <p class="lead">
+    <video width="300" height="220" controls>
+      <source src="{{ object.Video.url }}" type="video/mp4">
+      </video>
+  </p>
+  {% elif object.audio %}
+  <p>{{object.post|slice:"0:55"}}</p>
+    <audio controls>
+      <source src="{{ object.audio.url }}" type="audio/ogg">
+      </audio>
+  {% elif object.documents %}
+  <p>{{object.post|slice:"0:55"}}</p>
+  <p class="lead">
+    <a href="{{object.documents.url}}">{{object.documents}}</a>
+  </p>
+  {% else %}
+  <p>{{object.post}}</p>
+</div>
+{% endif %}
+<h5><b>Comments</b></h5>
+<div class="container">
+  <h6><b>{{user}}</b></h6>
+  <div class="container">
+    <a href="{% url 'cc' pk=user.id opk=object.id %}"><input type="text" class="form-control"placeholder="Add comment here....."></a>
+  </div>
+  {% for item in object.bok.all %}
+  <h6>{{item.user}}</h6>
+  <div class="container">
+    {{item.comment}}{% if user == item.user %} <a href="{% url 'ec' pk=item.id %}"><i class="fa fa-edit" style="font-size:24px"></i></a> <a href="{% url 'dc' pk=item.id %}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

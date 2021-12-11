@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block body_block %}
+{% if user.is_authenticated %}
+<h2>Are you sure want to delete this post?</h2>
+<form method="post">
+  {% csrf_token %}
+  <input type="submit" class="btn btn-danger" value="Confirm"> <a href="{% url 'detail' pk=object.id %}"><input type="button" class="btn btn-dark" value="Cancel"></a>
+</form>
+{% endif %}
+{% endblock %}

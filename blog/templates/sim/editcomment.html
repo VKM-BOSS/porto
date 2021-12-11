@@ -1,0 +1,10 @@
+{% extends 'sim/base.html' %}
+{% block body_block %}
+{% if user.is_authenticated %}
+<form method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+  <input type="submit" class="btn btn-success" value="Post"><a href="{% url 'detail' pk=object.blog.id %}"><input type="button" class="btn btn-warning" value="cancel"></a>
+</form>
+{% endif %}
+{% endblock %}

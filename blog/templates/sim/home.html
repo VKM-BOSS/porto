@@ -1,0 +1,66 @@
+{% extends 'sim/base.html' %}
+{% block body_block %}
+{% if user.is_authenticated %}
+<br>
+<div class="post">
+  <h4>For Simple Blog</h4>
+  <a href="{% url 'normal' pk=user.id %}"><input type="text" class="form-control" placeholder="Click Here"></a><br><br>
+  <h4>For Blogs with attachment</h4>
+  <a href="{% url 'image' pk=user.id %}"><i class="fa fa-file-image-o" style="font-size:36px"></i></a> <a href="{% url 'video' pk=user.id %}"><i class="fa fa-file-video-o" style="font-size:36px"></i></a> <a href="{% url 'audio' pk=user.id %}"><i class="fa fa-file-audio-o" style="font-size:36px"></i></a> <a href="{% url 'document' pk=user.id %}"><i class="fa fa-file-pdf-o" style="font-size:36px"></i></a>
+</div>
+<br>
+{% for item in model %}
+<div class="jumbotron">
+  <h1 class="display-4">{{item.title}}</h1>
+  <p class="lead">This Blog Uploaded by {{item.user}}</p>
+  <hr class="my-4">
+  <p>{{item.post|slice:"0:55"}}</p>
+  {% if item.Image %}
+  <p class="lead">
+    <a href="{% url 'detailblog' pk=item.id %}" role="button"><img src="{{ item.Image.url }}" alt="image broken" height="220" width="300"></a>
+  </p>
+  {% elif item.Video %}
+  <p class="lead">
+    <a href="{% url 'detailblog' pk=item.id %}" role="button"><video width="300" height="220" controls>
+      <source src="{{ item.Video.url }}" type="video/mp4">
+      </video></a>
+  </p>
+  {% elif item.audio %}
+  <a href="{% url 'detailblog' pk=item.id %}" role="button">{{ item.audio }}</a>
+  <p class="lead">
+    <audio controls>
+      <source src="{{ item.audio.url }}" type="audio/ogg">
+      </audio>
+  </p>
+  {% elif item.documents %}
+  <p class="lead">
+    <a href="{% url 'detailblog' pk=item.id %}" role="button">{{item.documents}}</a>
+  </p>
+  {% else %}
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="{% url 'detailblog' pk=item.id %}" role="button">Learn more</a>
+  </p>
+</div><br>
+{% endif %}
+{% endfor %}
+{% else %}
+<br>
+<h1 align="center" class="display-4">Login Here</h1>
+<div class="bg" align="center">
+  <form method="post">
+    {% csrf_token %}
+    <table class="logintable">
+      <tr>
+        <td><input type="text" class="form-control" name="username" placeholder="username"></td>
+      </tr>
+      <tr>
+        <td><input type="password" class="form-control" name="password" placeholder="*******"></td>
+      </tr>
+      <tr>
+        <td align="center"><input class="form-control btn btn-success" type="submit" value="login"></td>
+      </tr>
+    </table>
+  </form>
+</div>
+{% endif %}
+{% endblock %}
